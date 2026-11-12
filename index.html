@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BIZ KEEP: income management and KRA eTIMS-compliant invoicing for Kenyan SMEs." />
+  <title>BIZ KEEP - Income Management &amp; Invoicing</title>
+
+  <!-- Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Icons: Lucide (version pinned so a new release can't break the UI) -->
+  <script src="https://unpkg.com/lucide@0.462.0/dist/umd/lucide.min.js" defer></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-surface text-neutral-800">
+  <div class="app-layout">
+
+    <!-- ============ Sidebar ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="brand-icon">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <div>
+            <h1 class="brand-title">BIZ KEEP</h1>
+            <p class="brand-subtitle">KENYA LEDGER OS</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="etims-status-banner">
+        <span class="status-indicator"></span>
+        <span class="status-text">KRA eTIMS INTEGRATED</span>
+        <i data-lucide="check-circle" class="w-3.5 h-3.5 ml-auto"></i>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="#dashboard" class="nav-item">
+          <i data-lucide="layout-grid"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#income" class="nav-item active" aria-current="page">
+          <i data-lucide="banknote"></i>
+          <span>Income</span>
+        </a>
+        <a href="#expenses" class="nav-item">
+          <i data-lucide="receipt"></i>
+          <span>Expenses</span>
+        </a>
+        <a href="#records" class="nav-item">
+          <i data-lucide="folder-archive"></i>
+          <span>Records</span>
+        </a>
+        <a href="#customers" class="nav-item">
+          <i data-lucide="users"></i>
+          <span>Customers</span>
+        </a>
+        <a href="#reports" class="nav-item">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Reports</span>
+        </a>
+        <a href="#settings" class="nav-item">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="daraja-card">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-semibold text-emerald-100">M-PESA API</span>
+            <span class="badge-ready">Ready</span>
+          </div>
+          <p class="text-[11px] text-emerald-200/70">Daraja Sandbox Active</p>
+          <div class="slogan-badge">
+            YOUR BUSINESS. YOUR RECORDS. YOUR CONTROL.
+          </div>
+        </div>
+        <button type="button" class="logout-btn" id="logoutBtn">
+          <i data-lucide="log-out"></i>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ============ Main area ============ -->
+    <div class="main-wrapper">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="business-selector">
+          <div class="business-avatar">
+            <i data-lucide="store"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-sm text-neutral-900">Mwangi Hardware &amp; General Supplies Ltd</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-primary"></i>
+            </div>
+            <p class="text-xs text-neutral-500">Nairobi CBD &bull; PIN: P051283921Z</p>
+          </div>
+          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-neutral-400 ml-2"></i>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="date-chip">
+            <i data-lucide="calendar"></i>
+            <span id="currentDateDisplay">24/10/2024</span>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="openRecordModalBtn">
+            <i data-lucide="plus-circle"></i>
+            <span>Record Transaction</span>
+          </button>
+
+          <button type="button" class="icon-button notification-btn" aria-label="Notifications">
+            <i data-lucide="bell"></i>
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="user-profile">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;fit=crop&amp;q=80"
+              alt="David Mwangi"
+              class="user-avatar"
+              width="40"
+              height="40"
+              loading="lazy"
+            />
+            <div class="user-info">
+              <span class="user-name">David Mwangi</span>
+              <span class="user-role">SME PRO ACCOUNT</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page content -->
+      <main class="page-content" id="income">
+
+        <!-- Page header -->
+        <div class="page-header-row">
+          <div>
+            <div class="subheading-tag">
+              <span>KENYA LEDGER ENGINE</span>
+              <span class="dot-separator">&bull;</span>
+              <span class="text-emerald-700">eTIMS COMPLIANCE ACTIVE</span>
+            </div>
+            <h1 class="page-title">Income Management &amp; Invoicing</h1>
+            <p class="page-desc">Track customer revenues, M-PESA payments, cash transactions, and generate digital KRA-compliant receipts in real time.</p>
+          </div>
+
+          <div class="header-action-group">
+            <button type="button" class="btn btn-secondary" id="importCsvBtn">
+              <i data-lucide="upload-cloud"></i>
+              <span>Bulk Import CSV</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="exportLogBtn">
+              <i data-lucide="download"></i>
+              <span>Export Income Log</span>
+            </button>
+            <button type="button" class="btn btn-primary" id="newIncomeBtn">
+              <i data-lucide="plus"></i>
+              <span>Record New Income</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI cards -->
+        <section class="metrics-grid" aria-label="Income summary">
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">TOTAL COLLECTED (THIS MONTH)</span>
+              <div class="metric-icon-box bg-emerald-50 text-primary">
+                <i data-lucide="wallet"></i>
+              </div>
+            </div>
+            <div class="metric-value">KSh 1,482,650</div>
+            <div class="metric-footer">
+              <span class="metric-count">142 recorded transactions</span>
+              <span class="trend-badge positive">
+                <i data-lucide="trending-up"></i> +14.8% vs Sep
+              </span>
+            </div>
+            <div class="metric-progress-bar"><div class="fill" style="width: 82%;"></div></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">M-PESA COLLECTIONS</span>
+              <div class="metric-icon-box bg-emerald-50 text-emerald-700">
+                <i data-lucide="smartphone"></i>
+              </div>
+            </div>
+            <div class="metric-value">KSh 1,008,200</div>
+            <div class="metric-footer">
+              <span class="metric-count">68% total share</span>
+              <span class="shortcode-badge">Till 892341 &bull; Paybill 400222</span>
+            </div>
+            <div class="metric-progress-bar"><div class="fill" style="width: 68%;"></div></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">UNRECONCILED / PENDING</span>
+              <div class="metric-icon-box bg-amber-50 text-amber-700">
+                <i data-lucide="clock"></i>
+              </div>
+            </div>
+            <div class="metric-value text-amber-700">KSh 68,500</div>
+            <div class="metric-footer">
+              <span class="metric-count"><strong class="text-amber-800">5 pending</strong> bank awaiting clearance</span>
+              <a href="#audit" class="audit-link">Audit <i data-lucide="chevron-right"></i></a>
+            </div>
+            <div class="metric-progress-bar"><div class="fill bg-amber-500" style="width: 24%;"></div></div>
+          </div>
+
+        </section>
+
+        <!-- Workspace: ledger (left) + receipt preview (right) -->
+        <div class="workspace-grid">
+
+          <!-- Income ledger -->
+          <section class="table-container" aria-label="Income ledger">
+            <div class="table-filters-toolbar">
+              <div class="search-input-wrap">
+                <i data-lucide="search"></i>
+                <input
+                  type="search"
+                  id="transactionSearch"
+                  placeholder="Search by customer, invoice #, or ref..."
+                  aria-label="Search transactions"
+                />
+              </div>
+              <div class="select-filter-group">
+                <select id="channelFilter" class="filter-select" aria-label="Filter by channel">
+                  <option value="ALL">All Channels</option>
+                  <option value="M-PESA TILL">M-PESA Till</option>
+                  <option value="M-PESA PAYBILL">M-PESA Paybill</option>
+                  <option value="EQUITY BANK">Equity Bank</option>
+                  <option value="CASH">Cash Desk</option>
+                </select>
+                <select id="statusFilter" class="filter-select" aria-label="Filter by status">
+                  <option value="ALL">All Status</option>
+                  <option value="VERIFIED">eTIMS Validated</option>
+                  <option value="PENDING">Pending Approval</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="incomeLedgerTable">
+                <thead>
+                  <tr>
+                    <th scope="col">INV / RECEIPT</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">DESCRIPTION</th>
+                    <th scope="col">CHANNEL</th>
+                    <th scope="col">AMOUNT (KSH)</th>
+                    <th scope="col">ACTION</th>
+                  </tr>
+                </thead>
+                <!-- Rows are rendered by script.js -->
+                <tbody id="incomeTableBody"></tbody>
+              </table>
+            </div>
+
+            <div class="table-pagination">
+              <span class="pagination-info">Showing <span id="showingCount">5</span> of 142 items</span>
+              <div class="pagination-controls">
+                <button type="button" class="page-btn" id="prevPageBtn" aria-label="Previous page" disabled><i data-lucide="chevron-left"></i></button>
+                <button type="button" class="page-btn active" aria-current="page">1</button>
+                <button type="button" class="page-btn">2</button>
+                <button type="button" class="page-btn">3</button>
+                <button type="button" class="page-btn" id="nextPageBtn" aria-label="Next page"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </div>
+          </section>
+
+          <!-- KRA digital receipt preview -->
+          <aside class="receipt-panel" aria-label="Receipt preview">
+            <div class="receipt-panel-header">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-check-2" class="text-primary w-5 h-5"></i>
+                <h2 class="font-bold text-sm text-neutral-800">KRA Digital Receipt Preview</h2>
+              </div>
+              <span class="etims-valid-pill">
+                <i data-lucide="shield-check"></i> eTIMS VALID
+              </span>
+            </div>
+
+            <div class="thermal-receipt" id="receiptSheet">
+              <div class="thermal-header">
+                <div class="store-icon"><i data-lucide="store"></i></div>
+                <h3 class="receipt-title">MWANGI HARDWARE LTD</h3>
+                <p class="receipt-meta">Nairobi CBD, Tom Mboya St.</p>
+                <p class="receipt-meta font-mono font-bold">KRA PIN: P051283921Z</p>
+                <p class="receipt-meta">Till: 892341 &bull; Tel: +254 700 123 456</p>
+              </div>
+
+              <div class="thermal-divider-dashed"></div>
+
+              <div class="receipt-info-grid">
+                <div><span>Receipt No:</span> <strong id="recNumber">#INV-2024-089</strong></div>
+                <div><span>Date &amp; Time:</span> <strong id="recDate">24/10/2024 14:32 EAT</strong></div>
+                <div><span>Client PIN/Name:</span> <strong id="recCustomer">Kamau Enterprises</strong></div>
+                <div><span>M-PESA Trans ID:</span> <strong id="recRef" class="font-mono">SH89K120LM</strong></div>
+              </div>
+
+              <div class="thermal-divider-dashed"></div>
+
+              <!-- Line items (rendered/updated by script.js) -->
+              <table class="receipt-items-table">
+                <thead>
+                  <tr>
+                    <th scope="col">ITEM</th>
+                    <th scope="col" class="text-center">QTY x RATE</th>
+                    <th scope="col" class="text-right">TOTAL</th>
+                  </tr>
+                </thead>
+                <tbody id="receiptItemsBody">
+                  <tr>
+                    <td>Bamburi Cement 50kg</td>
+                    <td class="text-center">50 x 950.00</td>
+                    <td class="text-right">47,500.00</td>
+                  </tr>
+                  <tr>
+                    <td>Binding Wire 16G</td>
+                    <td class="text-center">10 x 4,500.00</td>
+                    <td class="text-right">45,000.00</td>
+                  </tr>
+                  <tr>
+                    <td>D12 Y-Rebar TMT</td>
+                    <td class="text-center">25 x 1,300.00</td>
+                    <td class="text-right">32,500.00</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="thermal-divider-dashed"></div>
+
+              <!-- Prices are VAT-inclusive: 125,000 / 1.16 = 107,758.62 net -->
+              <div class="receipt-totals-box">
+                <div class="total-row"><span>Subtotal (Net):</span> <span>KSh 107,758.62</span></div>
+                <div class="total-row"><span>VAT (16%, included):</span> <span>KSh 17,241.38</span></div>
+                <div class="thermal-divider-solid"></div>
+                <div class="grand-total-row">
+                  <span>TOTAL PAID:</span>
+                  <span id="recGrandTotal">KSh 125,000.00</span>
+                </div>
+              </div>
+
+              <!-- KRA fiscal stamp (sample data) -->
+              <div class="kra-stamp-container">
+                <div class="kra-stamp-text">
+                  <div class="font-bold text-[10px] text-neutral-800 uppercase">KRA eTIMS FISCAL STAMP</div>
+                  <div class="font-mono text-[9px] text-neutral-600">SCU0192309819230</div>
+                  <div class="font-mono text-[9px] text-neutral-600">SIGN: 4E9A-C890-F21B-E77D</div>
+                  <div class="font-bold text-[9px] text-emerald-700 mt-1 flex items-center gap-1">
+                    <i data-lucide="check" class="w-3 h-3"></i> VERIFIED TAX COMPLIANT
+                  </div>
+                </div>
+                <div class="stamp-qr-placeholder">
+                  <i data-lucide="qr-code"></i>
+                </div>
+              </div>
+
+              <p class="receipt-footer-kikuyu">Asante kwa Biashara Yako! (Thank you for your business)</p>
+            </div>
+
+            <div class="receipt-action-buttons">
+              <button type="button" class="btn btn-whatsapp" id="sendWhatsappBtn">
+                <i data-lucide="send"></i>
+                <span>Send SMS / WhatsApp</span>
+              </button>
+              <button type="button" class="btn btn-secondary" id="printReceiptBtn">
+                <i data-lucide="printer"></i>
+                <span>Print PDF</span>
+              </button>
+            </div>
+
+            <div class="daraja-sync-box">
+              <div class="daraja-icon"><i data-lucide="refresh-cw"></i></div>
+              <div>
+                <h4 class="font-semibold text-xs text-neutral-900">Daraja Live Auto-Match</h4>
+                <p class="text-[11px] text-neutral-600">Till 892341 receives payments directly into this ledger within 1.5 seconds. Manual entry automatically validates against the Daraja ledger.</p>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
